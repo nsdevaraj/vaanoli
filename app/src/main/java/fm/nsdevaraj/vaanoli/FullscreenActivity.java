@@ -17,7 +17,8 @@ import android.widget.RelativeLayout;
 public class FullscreenActivity extends Activity {
 
     // set your custom url here
-    String url = "file:///android_asset/index.html";
+    String url = "http://nsdevaraj.github.io/fm";
+            //"file:///android_asset/index.html";
     //"http://nsdevaraj.github.io/fm";
 
     // if you want to show progress bar on splash screen
@@ -113,27 +114,12 @@ public class FullscreenActivity extends Activity {
                 // check if splash is still there, get it away!
                 if (splash.getVisibility() == View.VISIBLE)
                     splash.setVisibility(View.GONE);
-                // slideToBottom(splash);
 
             }
 
         });
 
     }
-
-    /**
-     * To animate view slide out from top to bottom
-     *
-     * @param
-     * */
-    // void slideToBottom(View view) {
-    // TranslateAnimation animate = new TranslateAnimation(0, 0, 0,
-    // view.getHeight());
-    // animate.setDuration(2000);
-    // animate.setFillAfter(true);
-    // view.startAnimation(animate);
-    // view.setVisibility(View.GONE);
-    // }
 
     @Override
     public boolean onKeyDown(final int keyCode, final KeyEvent event) {
