@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    <link href="css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- your app's js -->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/jplayer/jquery.jplayer.min.js"></script>
+    <script src="lib/angular-cookies/angular-cookies.min.js"></script>
+    <script src="http://nsdevaraj.github.io/fm/js/stations.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+  </head>
+  <body style="width:100%;">
+    <div ng-app="tamilFm">
+      <div id="header" ng-controller="RadioHeadCtrl">
+    <h2>
+      {{$root.station}}
+    </h2>
+    </div>
+    <div id="player" ng-controller="RadioCtrl">
+    	<div id="jquery_jplayer_1" class="jp-jplayer" >
+    	</div>
+    <div id="jp_container_1" class="jp-audio">
+      <div class="jp-type-single">
+        <div class="jp-gui jp-interface">
+          <ul class="jp-controls icons-ul">
+            <li><button class="jp-back button button button-calm" tabindex="1"  ng-click='movebackward()'><i class="icon ion-skip-backward"></i></button></li>
+            <li><button class="jp-play button button-calm" tabindex="1"><i class="icon ion-play"></i></button></li>
+            <li><button  class="jp-pause button button-calm" tabindex="1"><i class="icon ion-pause"></i></button></li>
+            <li><button class="jp-stop button button-calm" tabindex="1"><i class="icon ion-stop"></i></button></li>
+            <li><button class="jp-mute button button-calm" tabindex="1"><i class="icon ion-volume-mute"></i></button></li>
+            <li><button class="jp-unmute button button-calm" tabindex="1"><i class="icon ion-volume-high"></i></button></li>
+            <li><button class="jp-next button button-calm" tabindex="1" ng-click='moveforward()'><i class="icon ion-skip-forward"></i></button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+      <ion-tabs class="tabs-icon-only tabs-positive barbottom">
+          <ion-tab title="Home" icon="ion-ios7-musical-note" ui-sref="home">
+              <ion-nav-view name="homeTab"></ion-nav-view>
+          </ion-tab>
+          <ion-tab title="Home" icon="ion-ios7-heart" ui-sref="favourite">
+              <ion-nav-view name="favouriteTab"></ion-nav-view>
+          </ion-tab>
+          <ion-tab title="Settings" icon="ion-android-storage" ui-sref="settings">
+              <ion-nav-view name="settingsTab"></ion-nav-view>
+          </ion-tab>
+      </ion-tabs>
+      <script type="text/ng-template" id="home.html">
+          <ion-header-bar class="bar-positive">
+              <h1 class="title">All Station</h1>
+          </ion-header-bar>
+          <ion-content has-tabs="true" ng-controller="HomeCtrl">
+                        <div class="list">
+              <ion-item ng-repeat="item in items" ng-click="changeChannel(item)">
+                  <a class="item item-thumbnail-left" href="#">
+                    <img ng-src="{{item.image}}"/>
+                    <h2>{{item.name}}</h2>
+                     <button style="float:right" class="button button-small button-calm icon ion-heart" ng-click="addFavourite(item)"></button>
+                    </a>
+                    </ion-item>
+                    </div>
+          </ion-content>
+      </script>
+      <script type="text/ng-template" id="settings.html">
+          <ion-header-bar class="bar-positive">
+              <h1 class="title">Categories</h1>
+          </ion-header-bar>
+        <ion-content has-tabs="true">
+        <ion-list ng-controller="MyCtrl">
+             <ion-item ng-repeat="category in items" class="item item-text-wrap">
+            <div ng-click="toggleItem(category)" ng-class="isItemShown(category) ? 'item-expand active' : 'item-expand inactive'">
+              <h2>{{ category.title }}</h2>
+  				<ion-item ng-repeat="station in category.stations" ng-click="changeChannel(item)">
+					<a class="station item-thumbnail-left" href="#">
+                    <h2>{{station.name}}</h2><button style="float:right" class="button button-small button-calm icon ion-heart" ng-click="addFavourite(station)"></button>
+                    </a>
+                </ion-item>
+            </div>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+      </script>
+       <script type="text/ng-template" id="favourite.html">
+          <ion-header-bar class="bar-positive">
+              <h1 class="title">Favourites</h1>
+          </ion-header-bar>
+         <ion-content has-tabs="true" ng-controller="FavCtrl">
+             <div class="list">
+              <ion-item ng-repeat="item in items"  ng-click="changeChannel(item)">
+                  <a class="item item-thumbnail-left" href="#">
+                    <img ng-src="{{item.image}}"/>
+                    <h2>{{item.name}}</h2>
+                     <button style="float:right" class="button button-small button-assertive icon ion-trash-a" ng-click="deleteFavourite($index)"></button>
+                    </a>
+                    </ion-item>
+                    </div>
+      </ion-content>
+      </script>
+  </div>
+  </body>
+</html>
