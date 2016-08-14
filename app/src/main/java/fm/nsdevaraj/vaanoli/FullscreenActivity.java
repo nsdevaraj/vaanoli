@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
@@ -50,21 +51,15 @@ public class FullscreenActivity extends Activity {
             ((ProgressBar) findViewById(R.id.progressBarSplash)).setVisibility(View.GONE);
         splash = (RelativeLayout) findViewById(R.id.splash);
 
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//
-//			// get status bar height to push webview below that
-//			int result = 0;
-//			int resourceId = getResources().getIdentifier("status_bar_height",
-//					"dimen", "android");
-//			if (resourceId > 0) {
-//				result = getResources().getDimensionPixelSize(resourceId);
-//			}
-//
-//			// set top padding to status bar
-//			main_layout.setPadding(0, result, 0, 0);
-//		}
-
         mWebView.loadUrl(url);
+        mWebView.setWebViewClient(new WebViewClient() {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                //Users will be notified in case there's an error (i.e. no internet connection)
+            }
+
+            public void onPageFinished(WebView view, String url) {
+                CookieSyncManager.getInstance().sync();
+            }});
 
         // control javaScript and add html5 features
         mWebView.setFocusable(true);
