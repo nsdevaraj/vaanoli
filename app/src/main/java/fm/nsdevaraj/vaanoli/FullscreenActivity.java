@@ -3,10 +3,13 @@ package fm.nsdevaraj.vaanoli;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
@@ -52,15 +55,6 @@ public class FullscreenActivity extends Activity {
         splash = (RelativeLayout) findViewById(R.id.splash);
 
         mWebView.loadUrl(url);
-        mWebView.setWebViewClient(new WebViewClient() {
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                //Users will be notified in case there's an error (i.e. no internet connection)
-            }
-
-            public void onPageFinished(WebView view, String url) {
-                CookieSyncManager.getInstance().sync();
-            }});
-
         // control javaScript and add html5 features
         mWebView.setFocusable(true);
         mWebView.setFocusableInTouchMode(true);
@@ -77,6 +71,7 @@ public class FullscreenActivity extends Activity {
 
         // this force use chromeWebClient
         mWebView.getSettings().setSupportMultipleWindows(true);
+
 
         mWebView.setWebViewClient(new WebViewClient() {
 
@@ -110,6 +105,7 @@ public class FullscreenActivity extends Activity {
                 if (splash.getVisibility() == View.VISIBLE)
                     splash.setVisibility(View.GONE);
 
+                CookieSyncManager.getInstance().sync();
             }
 
         });
